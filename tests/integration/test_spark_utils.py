@@ -3,7 +3,7 @@ import os
 
 from databricks_with_poetry import pyspark_functions
 
-db_profile = os.getenv("DB_PROFILE", "e2-field-eng")
+db_profile = os.getenv("DB_PROFILE", "field-eng")
 db_cluster = os.getenv("DB_CLUSTER")
 
 @pytest.fixture(scope="session")

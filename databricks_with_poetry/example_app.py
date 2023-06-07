@@ -11,7 +11,7 @@ def get_spark_session():
     except NameError:
         from databricks.connect import DatabricksSession
         from databricks.sdk.core import Config
-        db_profile = os.getenv("DB_PROFILE", "e2-field-eng")
+        db_profile = os.getenv("DB_PROFILE", "field-eng")
         db_cluster = os.getenv("DB_CLUSTER")
         config = Config(profile=db_profile, cluster_id=db_cluster)
         return DatabricksSession.builder.sdkConfig(config).getOrCreate()
