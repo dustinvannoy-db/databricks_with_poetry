@@ -1,9 +1,9 @@
-from databricks_with_poetry.tasks.sample_etl_task import SampleETLTask
-from databricks_with_poetry.tasks.sample_ml_task import SampleMLTask
-from pyspark.sql import SparkSession
-from pathlib import Path
-import mlflow
-import logging
+# from databricks_with_poetry.tasks.sample_etl_task import SampleETLTask
+# from databricks_with_poetry.tasks.sample_ml_task import SampleMLTask
+# from pyspark.sql import SparkSession
+# from pathlib import Path
+# import mlflow
+# import logging
 
 # def test_jobs(spark: SparkSession, tmp_path: Path):
 #     logging.info("Testing the ETL job")
