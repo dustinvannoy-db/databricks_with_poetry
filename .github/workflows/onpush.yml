@@ -83,7 +83,7 @@ jobs:
             source .venv/bin/activate
             poetry build
             ls
-            dbx deploy --workflows=databricks_with_poetry-sample-tests
+            dbx deploy
       - name: Run integration test
         env: 
           DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
