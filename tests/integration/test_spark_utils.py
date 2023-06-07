@@ -14,10 +14,12 @@ def spark_session():
         return spark
     else:
         try:
+            # from databricks.connect import DatabricksSession
+            # from databricks.sdk.core import Config
+            # config = Config(profile=db_profile, cluster_id=db_cluster)
+            # return DatabricksSession.builder.sdkConfig(config).getOrCreate()
             from databricks.connect import DatabricksSession
-            from databricks.sdk.core import Config
-            config = Config(profile=db_profile, cluster_id=db_cluster)
-            return DatabricksSession.builder.sdkConfig(config).getOrCreate()
+            return DatabricksSession.builder.getOrCreate()
         except (ModuleNotFoundError, ValueError):
             from pyspark.sql import SparkSession
             return SparkSession.builder.master("local[*]").getOrCreate()
@@ -28,6 +30,12 @@ def test_create_sample_dataframe_valid_df(spark_session):
     assert return_df.count() == 2
     # assert isinstance(return_df, DataFrame)
     print("Completed test for create_sample_dataframe")
+
+@pytest.mark.integration()
+def test_prepare_spark():
+    lcl_spark = pyspark_functions.prepare_spark()
+    print(type(lcl_spark))
+    assert str(type(lcl_spark)).find('SparkSession') > -1
 
 if __name__ == "__main__":
     # test_create_sample_dataframe_valid_df()
