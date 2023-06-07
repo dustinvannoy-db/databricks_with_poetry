@@ -8,7 +8,6 @@ db_cluster = os.getenv("DB_CLUSTER")
 
 @pytest.fixture(scope="session")
 def spark_session():
-    # spark_env = True if os.getenv("DATABRICKS_RUNTIME_VERSION") is not None else False
 
     if os.getenv("DATABRICKS_RUNTIME_VERSION") is not None:
         return spark
