@@ -1,0 +1,86 @@
+name: Release pipeline
+
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+
+jobs:
+  release-pipeline:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN:  ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+          cache-dependency-path: setup.py
+
+     #----------------------------------------------
+      #  -----  install & configure poetry  -----
+      #----------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+     #----------------------------------------------
+      # install dependencies if cache does not exist
+      #----------------------------------------------
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      # install your root project, if required
+      #----------------------------------------------
+      - name: Install project
+        run: poetry install --no-interaction
+
+      # - name: Create Release
+
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     release_name: Release ${{ github.ref }}
+      #     body: |
+      #       Release for version ${{ github.ref }}.
+      #     draft: false
+      #     prerelease: false
+
+      # #----------------------------------------------
+      # #              deploy artifact
+      # #----------------------------------------------
+      # - name: Release Workflow
+      #   env:
+      #     DATABRICKS_HOST: ${{ secrets.DATABRICKS_PROD_HOST }}
+      #     DATABRICKS_TOKEN:  ${{ secrets.DATABRICKS_PROD_TOKEN }}
+      #   run: |
+      #       source .venv/bin/activate
+      #       poetry build
+      #       ls
+      #       dbx deploy -e prod --workflows=databricks_with_poetry-sample-etl
