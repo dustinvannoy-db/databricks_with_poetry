@@ -76,7 +76,7 @@ jobs:
           pytest tests/ -m "not integration"
       
       - name: Run integration tests
-         env: 
+        env: 
           DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
           DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
           DATABRICKS_CLUSTER_ID: ${{secrets.DATABRICKS_CLUSTER_ID}}
