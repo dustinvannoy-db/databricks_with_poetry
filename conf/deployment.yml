@@ -36,7 +36,7 @@ environments:
             spark_python_task:
                 python_file: "file://tests/entrypoint.py"
                 # this call supports all standard pytest arguments
-                parameters: ["file:fuse://tests/integration", "--cov=databricks_with_poetry"]
+                parameters: ["file:fuse://tests/integration"] #, "--cov=databricks_with_poetry"
 
     # workflows:
       ######################################################################################
