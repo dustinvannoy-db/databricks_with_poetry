@@ -16,7 +16,7 @@ def get_spark_session():
         config = Config(profile=db_profile, cluster_id=db_cluster)
         return DatabricksSession.builder.sdkConfig(config).getOrCreate()
 
-spark = get_spark_session()
+spark = pyspark_functions.prepare_spark()
 df = pyspark_functions.create_sample_dataframe(spark)
 updated_df = df.withColumn("created_date", fn.current_date())
 updated_df.show()
