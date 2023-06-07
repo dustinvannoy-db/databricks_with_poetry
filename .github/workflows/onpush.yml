@@ -84,22 +84,22 @@ jobs:
           source .venv/bin/activate
           pytest tests/ -m "integration"
 
-      # - name: Deploy integration test
-      #   env: 
-      #     DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
-      #     DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
-      #   run: |
-      #       source .venv/bin/activate
-      #       poetry build
-      #       ls
-      #       dbx deploy
-      # - name: Run integration test
-      #   env: 
-      #     DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
-      #     DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
-      #   run: | 
-      #         source .venv/bin/activate
-      #         dbx launch --trace --cluster-id=0607-215249-mzvrq9go databricks_with_poetry-sample-tests
+      - name: Deploy integration test
+        env: 
+          DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
+          DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
+        run: |
+            source .venv/bin/activate
+            poetry build
+            ls
+            dbx deploy
+      - name: Run integration test
+        env: 
+          DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
+          DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
+        run: | 
+              source .venv/bin/activate
+              dbx launch --trace databricks_with_poetry-sample-tests
 
       # - name: Run unit tests
       #   run: |
