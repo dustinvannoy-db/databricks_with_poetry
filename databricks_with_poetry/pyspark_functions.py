@@ -16,11 +16,12 @@ def databricks_list_files(dbutils):
 
 def prepare_spark():
     try:
-        return spark
-    except NameError:
+        from databricks.connect import DatabricksSession
+        return DatabricksSession.builder.getOrCreate()
+    except ModuleNotFoundError as e:
         try:
-            from databricks.connect import DatabricksSession
-            return DatabricksSession.builder.getOrCreate()
+            from pyspark.sql import SparkSession
+            return SparkSession.builder.getOrCreate()
         except ModuleNotFoundError as e:
-            print("Not running on Databricks cluster and Databricks Connect not installed.")
+            print("Databricks Connect not installed and pyspark not available.")
             raise e

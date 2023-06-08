@@ -6,22 +6,35 @@ from databricks_with_poetry import pyspark_functions
 db_profile = os.getenv("DB_PROFILE", "field-eng")
 db_cluster = os.getenv("DB_CLUSTER")
 
+# @pytest.fixture(scope="session")
+# def spark_session():
+
+#     if os.getenv("DATABRICKS_RUNTIME_VERSION") is not None:
+#         return spark
+#     else:
+#         try:
+#             # from databricks.connect import DatabricksSession
+#             # from databricks.sdk.core import Config
+#             # config = Config(profile=db_profile, cluster_id=db_cluster)
+#             # return DatabricksSession.builder.sdkConfig(config).getOrCreate()
+#             from databricks.connect import DatabricksSession
+#             return DatabricksSession.builder.getOrCreate()
+#         except (ModuleNotFoundError, ValueError):
+#             from pyspark.sql import SparkSession
+#             return SparkSession.builder.master("local[*]").getOrCreate()
+
 @pytest.fixture(scope="session")
 def spark_session():
-
-    if os.getenv("DATABRICKS_RUNTIME_VERSION") is not None:
-        return spark
-    else:
+    try:
+        from databricks.connect import DatabricksSession
+        return DatabricksSession.builder.getOrCreate()
+    except ModuleNotFoundError as e:
         try:
-            # from databricks.connect import DatabricksSession
-            # from databricks.sdk.core import Config
-            # config = Config(profile=db_profile, cluster_id=db_cluster)
-            # return DatabricksSession.builder.sdkConfig(config).getOrCreate()
-            from databricks.connect import DatabricksSession
-            return DatabricksSession.builder.getOrCreate()
-        except (ModuleNotFoundError, ValueError):
             from pyspark.sql import SparkSession
-            return SparkSession.builder.master("local[*]").getOrCreate()
+            return SparkSession.builder.getOrCreate()
+        except ModuleNotFoundError as e:
+            print("Databricks Connect not installed and pyspark not available.")
+            raise e
 
 @pytest.mark.integration()
 def test_create_sample_dataframe_valid_df(spark_session):
