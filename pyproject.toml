@@ -8,6 +8,7 @@ packages = [{include = "databricks_with_poetry"}]
 
 [tool.poetry.scripts]
 etl = 'databricks_with_poetry.tasks.sample_etl_task:entrypoint'
+ml = 'databricks_with_poetry.tasks.sample_ml_task:entrypoint'
 
 [tool.poetry.dependencies]
 python = "^3.9.0"
