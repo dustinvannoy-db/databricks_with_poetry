@@ -74,6 +74,15 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest tests/ -m "not integration"
+      
+      - name: Run integration tests
+        env: 
+          DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
+          DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}
+          DATABRICKS_CLUSTER_ID: ${{secrets.DATABRICKS_CLUSTER_ID}}
+        run: |
+          source .venv/bin/activate
+          pytest tests/ -m "integration"
 
       - name: Deploy integration test
         env: 
@@ -83,7 +92,7 @@ jobs:
             source .venv/bin/activate
             poetry build
             ls
-            dbx deploy --workflows=databricks_with_poetry-sample-tests
+            dbx deploy
       - name: Run integration test
         env: 
           DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}

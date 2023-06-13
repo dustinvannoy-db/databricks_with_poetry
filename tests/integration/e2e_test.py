@@ -1,5 +1,5 @@
 import pytest
-from databricks_with_poetry.tasks.sample_etl_task import SampleETLTask
+# from databricks_with_poetry.tasks.sample_etl_task import SampleETLTask
 
 @pytest.mark.integration()
 def test_etl():

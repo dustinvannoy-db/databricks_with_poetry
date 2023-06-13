@@ -14,18 +14,14 @@ def databricks_list_files(dbutils):
     for f in files:
         print(f)
 
-# def get_spark_session():
-#     if os.getenv("DATABRICKS_RUNTIME_VERSION") is not None:
-#         from pyspark.sql import SparkSession
-#         return SparkSession.builder.getOrCreate()
-#     else:
-#         try:
-#             from databricks.connect import DatabricksSession
-#             from databricks.sdk.core import Config
-#             db_profile = os.getenv("DB_PROFILE", "e2-field-eng")
-#             db_cluster = os.getenv("DB_CLUSTER")
-#             config = Config(profile=db_profile, cluster_id=db_cluster)
-#             return DatabricksSession.builder.sdkConfig(config).getOrCreate()
-#         except ModuleNotFoundError:
-#             from pyspark.sql import SparkSession
-#             return SparkSession.builder.getOrCreate()
+def prepare_spark():
+    try:
+        from databricks.connect import DatabricksSession
+        return DatabricksSession.builder.getOrCreate()
+    except ModuleNotFoundError as e:
+        try:
+            from pyspark.sql import SparkSession
+            return SparkSession.builder.getOrCreate()
+        except ModuleNotFoundError as e:
+            print("Databricks Connect not installed and pyspark not available.")
+            raise e
