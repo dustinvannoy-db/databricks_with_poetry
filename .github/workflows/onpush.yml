@@ -75,7 +75,7 @@ jobs:
           source .venv/bin/activate
           pytest tests/ -m "not integration"
       
-      - name: Run integration tests
+      - name: Run integration test with dbconnect
         env: 
           DATABRICKS_HOST: ${{secrets.DATABRICKS_HOST}}
           DATABRICKS_TOKEN: ${{secrets.DATABRICKS_TOKEN}}

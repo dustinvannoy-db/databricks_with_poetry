@@ -29,7 +29,9 @@ environments:
         job_clusters:
         - job_cluster_key: "basic-cluster"
           <<: *basic-static-cluster
-        
+        tags:
+         Owner: "dustin.vannoy"
+         RemoveAfter: "2023-12-31"
         tasks:
           - task_key: "main"
             job_cluster_key: "basic-cluster"
@@ -54,6 +56,9 @@ environments:
       # # this is an example job with single ETL task based on 2.1 API and wheel_task format #
       # ######################################################################################
       - name: "databricks_with_poetry-sample-etl"
+        tags:
+         Owner: "dustin.vannoy"
+         RemoveAfter: "2023-12-31"
         tasks:
           - task_key: "main"
             <<: *basic-static-cluster
@@ -68,6 +73,9 @@ environments:
         job_clusters:
           - job_cluster_key: "default"
             <<: *basic-static-cluster
+        tags:
+         Owner: "dustin.vannoy"
+         RemoveAfter: "2023-12-31"
         tasks:
           - task_key: "etl"
             job_cluster_key: "default"
@@ -93,5 +101,26 @@ environments:
             #   - task_key: "ml"
             job_cluster_key: "default"
             notebook_task:
-              notebook_path: "/Users/dustin.vannoy@databricks.com/databricks_with_poetry/notebooks/sample_notebook"
+              notebook_path: "/Repos/dustin.vannoy@databricks.com/databricks_with_poetry/notebooks/sample_notebook"
+
+      - name: "databricks_with_poetry-notebook-tests"
+        job_clusters:
+          - job_cluster_key: "default"
+            <<: *basic-static-cluster
+        tags:
+         Owner: "dustin.vannoy"
+         RemoveAfter: "2023-12-31"
+        tasks:
+          ###############################################################################
+          # this is an example task based on the notebook                               #
+          # Please note that first you'll need to add a Repo and commit notebook to it. #
+          ###############################################################################
+          - task_key: "notebook"
+            deployment_config:
+              no_package: true # we omit using package since code will be shipped directly from the Repo
+            # depends_on:
+            #   - task_key: "ml"
+            job_cluster_key: "default"
+            notebook_task:
+              notebook_path: "/Repos/dustin.vannoy@databricks.com/databricks_with_poetry/notebooks/sample_notebook"
 
