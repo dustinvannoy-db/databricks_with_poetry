@@ -37,3 +37,6 @@ mlruns/
 # Environment variables
 .env
 .env*
+
+# Custom local
+local_*
