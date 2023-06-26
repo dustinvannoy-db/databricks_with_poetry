@@ -216,6 +216,11 @@ else:
 
 # COMMAND ----------
 
+if not results.wasSuccessful():
+  raise Exception(f"{len(test_runner.result.failures)} of {test_runner.result.testsRun} tests failed.")
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC
 # MAGIC # Use tests auto-discovery
