@@ -198,18 +198,26 @@ r = runner.run(suite)
 # COMMAND ----------
 
 # # if we want to generate JUnit-compatible output, set to True
-use_xml_runner = True
+use_xml_runner = False
+
+suite = discover_test_classes_and_functions()
 
 if use_xml_runner:
   import xmlrunner
   runner = xmlrunner.XMLTestRunner(output='/dbfs/Users/dustin.vannoy@databricks.com/tmp/test-reports')
+  results = runner.run(suite)
 else:
   runner = unittest.TextTestRunner()
-results = runner.run(suite)
+  results = runner.run(suite)
 
 # COMMAND ----------
 
 # MAGIC %sh ls -ls /dbfs/tmp/test-reports
+
+# COMMAND ----------
+
+if not results.wasSuccessful():
+  raise Exception(f"{len(test_runner.result.failures)} of {test_runner.result.testsRun} tests failed.")
 
 # COMMAND ----------
 

@@ -49,6 +49,7 @@ class SampleMLTask(Task):
 def entrypoint():  # pragma: no cover
     task = SampleMLTask()
     task.launch()
+    print(task)
 
 # if you're using spark_python_task, you'll need the __main__ block to start the code execution
 if __name__ == '__main__':

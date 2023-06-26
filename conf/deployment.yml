@@ -122,5 +122,5 @@ environments:
             #   - task_key: "ml"
             job_cluster_key: "default"
             notebook_task:
-              notebook_path: "/Repos/dustin.vannoy@databricks.com/databricks_with_poetry/notebooks/sample_notebook"
+              notebook_path: "/Repos/dustin.vannoy@databricks.com/databricks_with_poetry/notebooks/notebook_testing/Test for Library Functions"
 
