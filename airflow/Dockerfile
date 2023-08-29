@@ -1,0 +1,3 @@
+FROM quay.io/astronomer/astro-runtime:9.0.0
+ENV AIRFLOW__ENV=dev
+ENV AIRFLOW__SILVER_JOB_ID=565933589538528
